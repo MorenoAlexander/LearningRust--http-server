@@ -10,7 +10,7 @@ struct Server {
 }
 
 impl Server {
-    fn new(addr: String) -> Server {
+    fn new(addr: String) -> Self {
         Self {
             addr,
         }
