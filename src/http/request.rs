@@ -29,6 +29,7 @@ impl TryFrom<&[u8]> for Request {
         if protocol != "HTTP/1.1" {
             return Err(ParseError::InvalidProtocol);
         }
+        unimplemented!();
     }
 }
 
