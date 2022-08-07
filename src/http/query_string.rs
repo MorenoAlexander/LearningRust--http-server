@@ -14,3 +14,17 @@ impl<'buf> QueryString<'buf> {
         self.data.get(key)
     }
 }
+
+impl<'buf> From<&'buf str> for QueryString<'buf> {
+    fn from(s: &'buf str) -> Self {
+        let mut data = HashMap::new();
+
+        for sub_str in s.split('&') {
+            let key = sub_str;
+            let val = "";
+            if let Some(i) = s.find('=') {}
+        }
+
+        QueryString { data };
+    }
+}
