@@ -13,8 +13,16 @@ pub struct Request<'buf> {
 }
 
 impl<'buf> Request<'buf> {
-    fn from_byte_array(buf: &[u8]) -> Result<Self, String> {
-        todo!()
+    pub fn path(&self) -> &str {
+        &self.path
+    }
+
+    pub fn method(&self) -> &Method {
+        &self.method
+    }
+
+    pub fn query_string(&self) -> Option<&QueryString> {
+        self.query_string.as_ref()
     }
 }
 
@@ -25,8 +33,11 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
         let request = str::from_utf8(buf)?;
 
         let (method, request) = get_next_word(request).ok_or(ParseError::InvalidRequest)?;
+        dbg!(method);
         let (mut path, request) = get_next_word(request).ok_or(ParseError::InvalidRequest)?;
+        dbg!(path);
         let (protocol, _) = get_next_word(request).ok_or(ParseError::InvalidRequest)?;
+        dbg!(protocol);
 
         if protocol != "HTTP/1.1" {
             return Err(ParseError::InvalidProtocol);
@@ -49,19 +60,9 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
 }
 
 fn get_next_word(request: &str) -> Option<(&str, &str)> {
-    let mut iter = request.chars();
-
-    loop {
-        let item = iter.next();
-        match item {
-            Some(c) => {}
-            None => break,
-        }
-    }
-
     for (i, c) in request.chars().enumerate() {
         if c == ' ' || c == '\r' {
-            return Some((&request[..i], &request[i + i..]));
+            return Some((&request[..i], &request[i + 1..]));
         }
     }
 
