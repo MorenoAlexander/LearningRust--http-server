@@ -1,7 +1,9 @@
 use crate::http::Request;
-use std::convert::Into;
 use std::convert::TryFrom;
-use std::{io::Read, net::TcpListener};
+use std::{
+    io::{Read, Write},
+    net::TcpListener,
+};
 pub struct Server {
     addr: String,
 }
@@ -27,6 +29,7 @@ impl Server {
                             match Request::try_from(&buffer[..]) {
                                 Ok(request) => {
                                     dbg!(request);
+                                    write!(stream, "Hello, world!\r\n\r\n").unwrap();
                                 }
                                 Err(e) => println!("Failed to parse request: {}", e),
                             }
