@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::fmt::{Display, Formatter, Result as FmtResult};
 
 pub use super::status_code::StatusCode;
 
@@ -15,7 +15,17 @@ impl Response {
 }
 
 impl Display for Response {
-    fn fmt(&self, f: &mut Formatter) -> {
-        todo!()
+    fn fmt(&self, f: &mut Formatter) -> FmtResult {
+        let body = match &self.body {
+            Some(b) => b,
+            None => "",
+        };
+        write!(
+            f,
+            "HTTP/1.1 {} {}",
+            self.status_code,
+            self.status_code.reason_phrase(),
+            body
+        )
     }
 }
