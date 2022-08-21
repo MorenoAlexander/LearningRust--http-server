@@ -1,4 +1,4 @@
-use crate::http::Request;
+use crate::http::{Request, Response, StatusCode};
 use std::convert::TryFrom;
 use std::{
     io::{Read, Write},
@@ -29,6 +29,10 @@ impl Server {
                             match Request::try_from(&buffer[..]) {
                                 Ok(request) => {
                                     dbg!(request);
+                                    let response = Response::new(
+                                        StatusCode::Ok,
+                                        Some("<h1>Hello, World!</h1>".to_string()),
+                                    );
                                     write!(stream, "Hello, world!\r\n\r\n").unwrap();
                                 }
                                 Err(e) => println!("Failed to parse request: {}", e),
