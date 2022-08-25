@@ -5,6 +5,7 @@ use std::error::Error;
 use std::fmt::{Debug, Display, Formatter, Result as FmtResult};
 use std::str::{self, Utf8Error};
 
+// TODO: Add Header support
 #[derive(Debug)]
 pub struct Request<'buf> {
     path: &'buf str,
